@@ -1,0 +1,74 @@
+pipeline {
+    agent any
+    
+    tools {
+        terraform "Terraform"
+    }
+    parameters { 
+      choice(name: 'ENV', choices: ['dev', 'pre', 'pro'
+        ], description: 'Select the environment')
+      choice(name: 'ACTION', choices: ['', 'plan-apply', 'destroy'
+        ], description: 'Select the action to perform')
+    }
+    stages {
+        stage("checkout from GIT") {
+            steps {
+                git branch: 'main', credentialsId: '56e44c8c-ec1f-4fc6-98c8-ec5d8638cea0', url: 'https: //github.com/stwins60/S3-Bucket-Terraform.git'
+            }
+        }
+        stage ("terraform init") {
+            steps {
+                bat 'terraform init'
+            }
+        }
+        stage ("terraform fmt") {
+            steps {
+                bat 'terraform fmt'
+            }
+        }
+        stage("Apply AWS Cred"){
+            steps{
+                withAWS(credentials: 'ab28b3d2-df9d-4c90-a803-0f08f4daf3e2', region: 'us-west-2'){
+                    steps{
+                       bat 'terraform plan -out=plan.out'
+                    }
+                    steps {
+                        script {
+                            def userInput = input(id: 'confirm', message: params.ACTION + '?', parameters: [
+                                [$class: 'BooleanParameterDefinition', defaultValue: false, description: 'Apply terraform', name: 'confirm'
+                                ]
+                            ])
+                        }
+                    }
+                    
+                    steps {
+                        bat 'echo "starts"'
+                        script{  
+                            if (params.ACCION == "destroy"){
+                                bat 'echo "arrive" + params.ACTION'   
+                                bat 'terraform destroy plan.out -auto-approve'
+                            } else {
+                                bat ' echo  "arrive" + params.ACTION'                 
+                                bat 'terraform apply plan.out -refresh=true -auto-approve'
+                            }
+                        }
+                    }
+                }
+            }
+            // //   bat 'terraform plan' 
+            //   bat 'terraform apply --auto-approve'
+            // }
+            // }
+        }
+        // stage ("terraform plan") {
+        //     steps {
+        //         bat 'terraform plan'
+        //     }
+        // }
+        // stage ("terraform apply") {
+        //     steps {
+        //         bat 'terraform apply --auto-approve'
+        //     }
+        // }
+    }
+}

@@ -1,0 +1,10 @@
+behave==1.2.6
+certifi==2021.5.30
+charset-normalizer==2.0.6
+idna==3.2
+parse==1.19.0
+parse-type==0.5.2
+requests==2.26.0
+selenium==3.141.0
+six==1.16.0
+urllib3==1.26.7
