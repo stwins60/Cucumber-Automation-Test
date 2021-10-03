@@ -14,7 +14,7 @@ def get_driver(context):
     context.driver.maximize_window()
     context.driver.implicitly_wait(10)
     context.driver.get(f'https://api.themoviedb.org/3/movie/{RAND}?api_key=37b46b26998e792429f57babd3432089&language=en-US')
-    time.sleep(15)
+    time.sleep(5)
     return context.driver
 
 @then("I should get the latest movie")
@@ -22,7 +22,7 @@ def api_test(context):
     context.driver = webdriver.Chrome(r'C:\chromedriver.exe')
     context.driver.get('https://api.themoviedb.org/3/movie/latest?api_key=37b46b26998e792429f57babd3432089&language=en-US')
     response = context.driver.page_source
-    time.sleep(15)
+    time.sleep(5)
     return response
 
 
@@ -46,7 +46,7 @@ def api_test_4(context):
     context.response = context.driver.get(f'https://api.themoviedb.org/3/movie/{movie_id}/rating?\
     api_key=37b46b26998e792429f57babd3432089&language=en-US')
     print(context.response)
-    time.sleep(15)
+    time.sleep(5)
     return context.response
 
 
