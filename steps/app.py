@@ -49,9 +49,6 @@ def api_test_4(context):
     time.sleep(5)
     return context.response
 
-
-
-
 def after_all(context):
     context.driver.implicitly_wait(10)
     context.driver.quit()
