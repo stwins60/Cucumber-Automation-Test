@@ -3,6 +3,7 @@ from behave import *
 from selenium.webdriver.common import keys
 from chromedriver_py import binary_path
 from selenium.webdriver.chrome.options import Options
+from webdriver_manager.chrome import ChromeDriverManager
 import time
 
 
@@ -13,7 +14,7 @@ options.add_argument('--disable-gpu')
 @given('I go to amazon.com')
 def step_impl(context):
 #     context.driver = webdriver.Chrome(r'C:\chromedriver.exe')
-    context.driver = webdriver.Chrome(binary_path, chrome_options=options)
+    context.driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=options)
     context.driver.get("https://www.amazon.com/")
     context.driver.maximize_window()
     context.driver.implicitly_wait(10)
