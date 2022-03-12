@@ -1,4 +1,4 @@
-ehave==1.2.6
+behave==1.2.6
 certifi==2021.5.30
 charset-normalizer==2.0.6
 idna==3.2
@@ -9,3 +9,4 @@ selenium==3.141.0
 six==1.16.0
 urllib3==1.26.7
 chromedriver-py==95.0.4638.17
+webdriver-manager>=3.5.2
